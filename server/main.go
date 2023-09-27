@@ -1,6 +1,7 @@
 package main
 
 import (
+  "fmt"
   "net"
   "context"
 
@@ -12,7 +13,7 @@ func main() {
   server := grpc.NewServer()
   pb.RegisterMessageServiceServer(server, &handlers{})
 
-  listen, err := net.Listen("tcp", "localhost:4100")
+  listen, err := net.Listen("tcp", "localhost:4000")
   if err != nil {
     panic(err)
   }
@@ -28,6 +29,8 @@ func (h *handlers) GetMessage(c context.Context, in *pb.MessageRequest) (*pb.Mes
   if name == "" {
     name = "world"
   }
+
+  fmt.Println("New stub request!")
 
   return &pb.MessageReply{
     Message: "Hello, " + name + "!",
